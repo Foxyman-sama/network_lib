@@ -1,6 +1,15 @@
-cmake_minimum_required(VERSION 3.27)
+cmake_minimum_required(VERSION 3.29)
 project("network_lib")
 
-add_library(${PROJECT_NAME} main.cxx)
+find_package(Boost REQUIRED CONFIG)
+
+add_library(${PROJECT_NAME} src/tcp_connection.cxx)
+
+target_include_directories(${PROJECT_NAME} PUBLIC 
+    src
+    ${Boost_INCLUDE_DIRS})
+target_link_libraries(${PROJECT_NAME} PUBLIC ${Boost_LIBRARIES})
+
+enable_testing()
 
 add_subdirectory(tests)
