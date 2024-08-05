@@ -14,6 +14,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR})
 target_link_libraries(${PROJECT_NAME} 
     GTest::gtest_main 
     GTest::gmock_main
+    network_lib
 )
 
 add_test(${PROJECT_NAME} ${PROJECT_NAME})
