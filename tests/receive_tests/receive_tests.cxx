@@ -15,26 +15,18 @@ int main() {
 
 class receive_tests : public Test {
  public:
-  void SetUp() override {
-    server.init_on_receive();
+  void SetUp() {
+    server.init_on_send();
     server.start();
     conn = make_tcp_connection(test_ip.data(), std::to_string(test_port));
   }
-
-  void TearDown() override { server.drop(); }
 
   std::unique_ptr<TCPConnection> conn;
   TestServer server;
 };
 
-TEST_F(receive_tests, correct_sending_hello_world) {
-  conn->send(test_message.data());
+TEST_F(receive_tests, correct_receive_hello_world) {
+  const auto actual { conn->receive() };
 
-  ASSERT_EQ(test_message, server.get_result());
-}
-
-TEST_F(receive_tests, correct_sending_empty_string) {
-  conn->send("");
-
-  ASSERT_EQ("", server.get_result());
+  ASSERT_EQ(test_message, actual);
 }

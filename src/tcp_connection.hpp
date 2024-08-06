@@ -1,24 +1,10 @@
 #ifndef NETWORK_LIB_TCP_CONNECTION_HPP
 #define NETWORK_LIB_TCP_CONNECTION_HPP
 
-#include <boost/asio.hpp>
 #include <memory>
 #include <string>
 
-using Context = boost::asio::io_context;
-
-class NetworkImpl {
- public:
-  void connect(const std::string &ip, const std::string &port) {
-    const auto endpoints { resolver.resolve(ip, port) };
-    boost::asio::connect(socket, endpoints);
-  }
-
- private:
-  Context context;
-  boost::asio::ip::tcp::resolver resolver { context };
-  boost::asio::ip::tcp::socket socket { context };
-};
+#include "network_impl.hpp"
 
 class TCPConnection {
  public:
@@ -27,6 +13,10 @@ class TCPConnection {
 
   void connect() { impl->connect(ip, port); }
 
+  void send(const std::string &message) { impl->send(message); }
+
+  std::string receive() { return impl->receive(); }
+
  private:
   std::string ip;
   std::string port;
@@ -34,4 +24,5 @@ class TCPConnection {
 };
 
 std::unique_ptr<TCPConnection> make_tcp_connection(const std::string &addr, const std::string &port);
+
 #endif
