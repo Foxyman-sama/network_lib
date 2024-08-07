@@ -13,9 +13,10 @@ int main() {
   return RUN_ALL_TESTS();
 }
 
-class receive_tests : public Test {
+class send_tests : public Test {
  public:
   void SetUp() override {
+    server.make_acceptor();
     server.init_on_receive();
     server.start();
     conn = make_tcp_connection(test_ip.data(), std::to_string(test_port));
@@ -27,13 +28,13 @@ class receive_tests : public Test {
   TestServer server;
 };
 
-TEST_F(receive_tests, correct_sending_hello_world) {
+TEST_F(send_tests, correct_sending_hello_world) {
   conn->send(test_message.data());
 
   ASSERT_EQ(test_message, server.get_result());
 }
 
-TEST_F(receive_tests, correct_sending_empty_string) {
+TEST_F(send_tests, correct_sending_empty_string) {
   conn->send("");
 
   ASSERT_EQ("", server.get_result());
