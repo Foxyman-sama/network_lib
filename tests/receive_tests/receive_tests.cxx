@@ -47,3 +47,14 @@ TEST_F(receive_tests, correct_receive_empty_string) {
 
   ASSERT_EQ("", actual);
 }
+
+TEST_F(receive_tests, correct_receive_hello_world_multiple_times) {
+  init();
+  connect();
+
+  for (auto i { int { 0 } }; i < 5; ++i) {
+    const auto actual { conn->receive() };
+    ASSERT_EQ(test_message, actual);
+    init();
+  }
+}

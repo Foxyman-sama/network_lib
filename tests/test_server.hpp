@@ -28,7 +28,7 @@ class TestServer {
     acceptor->async_accept(receive_func);
   }
 
-  void init_on_send(const std::string message = test_message) {
+  void init_on_send(const std::string &message = test_message) {
     const auto send_func { [this, message](net_lib::ErrorCode ec, net_lib::TCPSocket socket) {
       const auto buf { net_lib::buffer(message + net_lib::end_delim) };
       net_lib::write(socket, buf);

@@ -1,6 +1,7 @@
 #ifndef TEST_CONSTANTS_HPP
 #define TEST_CONSTANTS_HPP
 
+#include <climits>
 #include <random>
 #include <string_view>
 
