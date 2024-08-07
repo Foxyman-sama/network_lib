@@ -5,6 +5,12 @@
 
 class NetworkImpl {
  public:
+  virtual ~NetworkImpl() {
+    auto ec { net_lib::ErrorCode {} };
+    auto _ { socket.shutdown(net_lib::shutdown_both, ec) };
+    socket.close();
+  }
+
   void connect(const std::string &ip, const std::string &port) {
     const auto endpoints { resolver.resolve(ip, port) };
     net_lib::connect(socket, endpoints);

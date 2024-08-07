@@ -9,50 +9,39 @@
 #include "net_lib_wrapper.hpp"
 #include "test_constants.hpp"
 
-const auto dead_time { std::chrono::seconds(5) };
+const auto dead_time { std::chrono::seconds(10) };
 
 class TestServer {
  public:
-  void make_acceptor() {
-    acceptor = std::make_unique<net_lib::TCPAcceptor>(context, net_lib::TCPEndpoint { net_lib::v4(), test_port });
-  }
+  void init_on_accept() {
+    set_up_acceptor();
 
-  void init_on_receive() {
-    const auto receive_func { [this](net_lib::ErrorCode ec, net_lib::TCPSocket socket) {
-      auto buf { net_lib::StreamBuf {} };
-      net_lib::read_until(socket, buf, net_lib::end_delim);
+    const auto accept_func { [this](net_lib::ErrorCode ec, net_lib::TCPSocket new_socket) {
+      socket = std::move(new_socket);
 
-      auto is { std::istream { &buf } };
-      std::getline(is, result, net_lib::end_delim);
+      switch (mode) {
+        case Mode::receive: {
+          prepare_async_receive();
+          break;
+        }
+        case Mode::send: {
+          prepare_async_send();
+          break;
+        }
+      }
     } };
-    acceptor->async_accept(receive_func);
+    acceptor->async_accept(accept_func);
   }
+
+  void init_on_receive() { mode = Mode::receive; }
 
   void init_on_send(const std::string &message = test_message) {
-    const auto send_func { [this, message](net_lib::ErrorCode ec, net_lib::TCPSocket socket) {
-      const auto buf { net_lib::buffer(message + net_lib::end_delim) };
-      net_lib::write(socket, buf);
-    } };
-    acceptor->async_accept(send_func);
+    mode = Mode::send;
+    send_message = message;
   }
 
   void start() {
-    // FIXME Что-то не так с функией приёма или ожидания
-    task = std::async(std::launch::async, [this]() {
-      context.run_one_for(std::chrono::seconds(5));
-      std::print("Server is closed\n");
-    });
-    // It's necessary because a connection will be created faster than server start accepting connections.
-    task.wait_for(std::chrono::seconds(2));
-  }
-
-  void drop() {
-    net_lib::ErrorCode ec;
-    ec = acceptor->cancel(ec);
-    ec = acceptor->close(ec);
-    acceptor.reset();
-    context.reset();
-    result.clear();
+    task = std::async(std::launch::async, [this]() { context.run_for(dead_time); });
   }
 
   const std::string &get_result() const noexcept {
@@ -60,9 +49,44 @@ class TestServer {
     return result;
   }
 
+  void prepare_async_receive() {
+    const auto receive_func { [this](net_lib::ErrorCode ec, std::size_t transferred) {
+      std::print("Callback: receive_func\n");
+
+      auto is { std::istream { &receive_buffer } };
+      std::getline(is, result, net_lib::end_delim);
+    } };
+    net_lib::async_read_until(socket, receive_buffer, net_lib::end_delim, receive_func);
+  }
+
+  void prepare_async_send() {
+    const auto send_func { [this](net_lib::ErrorCode ec, std::size_t transferred) {
+      std::print("Callback: send_func\n");
+    } };
+    net_lib::async_write(socket, net_lib::buffer(send_message + net_lib::end_delim), send_func);
+  }
+
  private:
+  enum class Mode { receive, send };
+
+  void set_up_acceptor() {
+    if (acceptor->is_open() == false) {
+      acceptor->open(net_lib::v4());
+      acceptor->set_option(net_lib::reuse_address(true));
+      acceptor->bind(endpoint);
+      acceptor->listen();
+    }
+  }
+
   net_lib::Context context;
-  std::unique_ptr<net_lib::TCPAcceptor> acceptor;
+  std::unique_ptr<net_lib::TCPAcceptor> acceptor { std::make_unique<net_lib::TCPAcceptor>(context) };
+  net_lib::TCPEndpoint endpoint { net_lib::v4(), test_port };
+
+  net_lib::TCPSocket socket { context };
+  Mode mode { TestServer::Mode::receive };
+
+  net_lib::StreamBuf receive_buffer;
+  std::string send_message;
 
   std::string result;
   std::future<void> task;
