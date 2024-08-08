@@ -2,9 +2,11 @@
 #define TEST_SERVER_HPP
 
 #include <boost/asio.hpp>
+#include <chrono>
 #include <future>
 #include <memory>
 #include <print>
+#include <thread>
 
 #include "net_lib_wrapper.hpp"
 #include "test_constants.hpp"
@@ -41,7 +43,9 @@ class TestServer {
   }
 
   void start() {
-    task = std::async(std::launch::async, [this]() { context.run_for(dead_time); });
+    const auto context_func { [this]() { context.run_for(dead_time); } };
+    task = std::async(std::launch::async, context_func);
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
   }
 
   const std::string &get_result() const noexcept {

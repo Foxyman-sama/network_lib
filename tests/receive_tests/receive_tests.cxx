@@ -1,12 +1,16 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
+#include <string>
+
 #include "../test_constants.hpp"
 #include "../test_server.hpp"
+#include "address.hpp"
+#include "asio_network_impl_sync.hpp"
 #include "tcp_connection.hpp"
 
 using namespace testing;
-
+// TODO Rework this test module.
 int main() {
   InitGoogleTest();
   InitGoogleMock();
@@ -19,7 +23,9 @@ class receive_tests : public Test {
     server.init_on_send(message);
     server.init_on_accept();
     server.start();
-    conn = make_tcp_connection(test_ip.data(), std::to_string(test_port));
+
+    const auto addr { make_address(test_ip.data(), std::to_string(test_port)) };
+    conn = make_tcp_connection(addr, std::make_unique<AsioNetworkImplSync>());
   }
 
   std::unique_ptr<TCPConnection> conn;

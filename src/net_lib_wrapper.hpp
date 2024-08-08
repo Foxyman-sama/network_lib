@@ -1,5 +1,5 @@
-#ifndef NET_LIB_WRAPPER_HPP
-#define NET_LIB_WRAPPER_HPP
+#ifndef NETWORK_LIB_WRAPPER_HPP
+#define NETWORK_LIB_WRAPPER_HPP
 
 #include <boost/asio.hpp>
 

@@ -4,25 +4,37 @@
 #include <memory>
 #include <string>
 
-#include "network_impl.hpp"
+#include "acceptor.hpp"
+#include "address.hpp"
+
+class TCPNetwork {
+ public:
+  virtual ~TCPNetwork() = default;
+
+  virtual void connect(const Address &addr) = 0;
+
+  virtual void send(const std::string &message) = 0;
+
+  virtual std::string receive() = 0;
+};
 
 class TCPConnection {
  public:
-  TCPConnection(const std::string &ip, const std::string &port, NetworkImpl *impl)
-      : ip { ip }, port { port }, impl { impl } {}
+  explicit TCPConnection(const Address &addr, std::unique_ptr<TCPNetwork> impl);
 
-  void connect() { impl->connect(ip, port); }
+  void connect();
 
-  void send(const std::string &message) { impl->send(message); }
+  void send(const std::string &message);
 
-  std::string receive() { return impl->receive(); }
+  std::string receive();
 
  private:
+  Address addr;
   std::string ip;
   std::string port;
-  std::unique_ptr<NetworkImpl> impl;
+  std::unique_ptr<TCPNetwork> impl;
 };
 
-std::unique_ptr<TCPConnection> make_tcp_connection(const std::string &addr, const std::string &port);
+std::unique_ptr<TCPConnection> make_tcp_connection(const Address &addr, std::unique_ptr<TCPNetwork> impl);
 
 #endif
