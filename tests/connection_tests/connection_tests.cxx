@@ -4,9 +4,12 @@
 #include <memory>
 
 #include "address.hpp"
-#include "asio_network_impl_sync.hpp"
+#include "network_impl/asio_network_impl_sync.hpp"
 #include "tcp_connection.hpp"
 
+using namespace network::client;
+using namespace network::client::network_impl;
+using namespace network::client::network_impl::asio;
 using namespace testing;
 
 int main() {

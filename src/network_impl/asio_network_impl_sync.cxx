@@ -1,4 +1,7 @@
 #include "asio_network_impl_sync.hpp"
+
+namespace network::client::network_impl::asio {
+
 AsioNetworkImplSync::~AsioNetworkImplSync() {
   auto ec { net_lib::ErrorCode {} };
   auto _ { socket.shutdown(net_lib::shutdown_both, ec) };
@@ -27,3 +30,5 @@ std::string AsioNetworkImplSync::extract_from_buffer(net_lib::StreamBuf &buf) {
   std::getline(is, result, net_lib::end_delim);
   return result;
 }
+
+}  // namespace network::client::network_impl::asio

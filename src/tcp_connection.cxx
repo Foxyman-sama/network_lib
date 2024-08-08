@@ -1,5 +1,9 @@
 #include "tcp_connection.hpp"
 
+namespace network::client {
+
+using namespace network_impl;
+
 TCPConnection::TCPConnection(const Address &addr, std::unique_ptr<TCPNetwork> impl)
     : addr { addr }, impl { std::move(impl) } {}
 
@@ -14,3 +18,5 @@ std::unique_ptr<TCPConnection> make_tcp_connection(const Address &addr, std::uni
   result->connect();
   return result;
 }
+
+}  // namespace network::client
