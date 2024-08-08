@@ -7,8 +7,8 @@
 #include "tcp_connection.hpp"
 
 using namespace network::client;
-using namespace network::client::network_impl;
-using namespace network::client::network_impl::asio;
+using namespace network::network_impl;
+using namespace network::network_impl::asio;
 using namespace testing;
 
 int main() {

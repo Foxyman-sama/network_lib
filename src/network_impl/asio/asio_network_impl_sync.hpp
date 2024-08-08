@@ -5,7 +5,7 @@
 #include "asio_lib_wrapper.hpp"
 #include "tcp_connection.hpp"
 
-namespace network::client::network_impl::asio {
+namespace network::network_impl::asio {
 
 class AsioNetworkImplSync : public TCPNetwork {
  public:
@@ -25,6 +25,6 @@ class AsioNetworkImplSync : public TCPNetwork {
   net_lib::TCPSocket socket { context };
 };
 
-}  // namespace network::client::network_impl::asio
+}  // namespace network::network_impl::asio
 
 #endif

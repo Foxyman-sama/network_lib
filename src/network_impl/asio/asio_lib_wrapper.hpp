@@ -3,7 +3,7 @@
 
 #include <boost/asio.hpp>
 
-namespace network::client::network_impl::asio::net_lib {
+namespace network::network_impl::asio::net_lib {
 
 using Context = boost::asio::io_context;
 using TCPResolver = boost::asio::ip::tcp::resolver;
@@ -29,6 +29,6 @@ inline auto reuse_address(bool value) { return boost::asio::ip::tcp::acceptor::r
 
 constexpr char end_delim { '\0' };
 
-}  // namespace network::client::network_impl::asio::net_lib
+}  // namespace network::network_impl::asio::net_lib
 
 #endif

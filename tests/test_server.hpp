@@ -10,7 +10,7 @@
 #include "network_impl/asio/asio_lib_wrapper.hpp"
 #include "test_constants.hpp"
 
-using namespace network::client::network_impl::asio;
+using namespace network::network_impl::asio;
 
 const auto dead_time { std::chrono::seconds(10) };
 

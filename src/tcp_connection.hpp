@@ -6,23 +6,9 @@
 
 #include "acceptor.hpp"
 #include "address.hpp"
+#include "network_impl.hpp"
 
 namespace network::client {
-
-namespace network_impl {
-
-class TCPNetwork {
- public:
-  virtual ~TCPNetwork() = default;
-
-  virtual void connect(const Address &addr) = 0;
-
-  virtual void send(const std::string &message) = 0;
-
-  virtual std::string receive() = 0;
-};  // namespace network::client::classTCPNetwork
-
-}  // namespace network_impl
 
 class TCPConnection {
  public:

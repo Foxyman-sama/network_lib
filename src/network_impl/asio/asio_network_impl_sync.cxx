@@ -1,6 +1,6 @@
 #include "asio_network_impl_sync.hpp"
 
-namespace network::client::network_impl::asio {
+namespace network::network_impl::asio {
 
 AsioNetworkImplSync::~AsioNetworkImplSync() {
   auto ec { net_lib::ErrorCode {} };
@@ -31,4 +31,4 @@ std::string AsioNetworkImplSync::extract_from_buffer(net_lib::StreamBuf &buf) {
   return result;
 }
 
-}  // namespace network::client::network_impl::asio
+}  // namespace network::network_impl::asio
