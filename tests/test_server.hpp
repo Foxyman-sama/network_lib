@@ -4,12 +4,13 @@
 #include <boost/asio.hpp>
 #include <chrono>
 #include <future>
-#include <memory>
 #include <print>
 #include <thread>
 
-#include "net_lib_wrapper.hpp"
+#include "network_impl/asio/asio_lib_wrapper.hpp"
 #include "test_constants.hpp"
+
+using namespace network::client::network_impl::asio;
 
 const auto dead_time { std::chrono::seconds(10) };
 

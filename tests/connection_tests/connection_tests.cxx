@@ -4,7 +4,7 @@
 #include <memory>
 
 #include "address.hpp"
-#include "network_impl/asio_network_impl_sync.hpp"
+#include "network_impl/asio/asio_network_impl_sync.hpp"
 #include "tcp_connection.hpp"
 
 using namespace network::client;

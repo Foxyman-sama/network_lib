@@ -6,7 +6,7 @@
 #include "../test_constants.hpp"
 #include "../test_server.hpp"
 #include "address.hpp"
-#include "network_impl/asio_network_impl_sync.hpp"
+#include "network_impl/asio/asio_network_impl_sync.hpp"
 #include "tcp_connection.hpp"
 
 using namespace network::client;

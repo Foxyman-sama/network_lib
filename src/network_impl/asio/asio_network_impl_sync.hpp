@@ -2,7 +2,7 @@
 #define NETWORK_LIB_ASIO_NETWORK_IMPL_SYNC_HPP
 
 #include "address.hpp"
-#include "net_lib_wrapper.hpp"
+#include "asio_lib_wrapper.hpp"
 #include "tcp_connection.hpp"
 
 namespace network::client::network_impl::asio {
