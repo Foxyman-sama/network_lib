@@ -18,7 +18,7 @@ int main() {
 
 class receive_tests : public Test {
  public:
-  void init(const std::string &message = test_message) {
+  void init(const std::string& message = test_message) {
     server.init_on_send(message);
     server.init_on_accept();
     server.start();

@@ -2,6 +2,7 @@
 #include <gtest/gtest.h>
 
 #include "../asio_include.hpp"
+#include "network_impl/asio/asio_tcp_socket.hpp"
 
 using namespace testing;
 

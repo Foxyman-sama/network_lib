@@ -11,21 +11,23 @@ namespace network::tcp_socket::asio {
 
 class AsioTcpSocket : public TcpSocket {
  public:
-  explicit AsioTcpSocket(asio_lib::AsioTcpSocket &&socket) noexcept;
+  explicit AsioTcpSocket(asio_lib::AsioTcpSocket&& socket) noexcept;
 
   ~AsioTcpSocket() override;
 
-  void send(const std::string &message) override;
+  void send(const std::string& message) override;
 
   std::string receive() override;
 
  private:
-  std::string extract_from_buffer(asio_lib::AsioStreamBuf &buf);
+  std::unique_ptr<asio_lib::AsioStreamBuf> receive_into_buffer();
+
+  std::string extract_from_buffer(asio_lib::AsioStreamBuf& buf);
 
   asio_lib::AsioTcpSocket socket;
 };
 
-std::unique_ptr<TcpSocket> asio_connect(const Address &addr);
+std::unique_ptr<TcpSocket> asio_connect(const Address& addr);
 
 }  // namespace network::tcp_socket::asio
 
