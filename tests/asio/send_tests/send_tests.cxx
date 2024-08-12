@@ -1,14 +1,13 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
-#include "../test_constants.hpp"
-#include "../test_server.hpp"
-#include "network_impl/asio/asio_network_impl_sync.hpp"
-#include "tcp_connection.hpp"
+#include <string>
 
-using namespace network::client;
-using namespace network::network_impl;
-using namespace network::network_impl::asio;
+#include "../asio_include.hpp"
+#include "../test_server.hpp"
+#include "network_impl/asio/asio_tcp_socket.hpp"
+#include "tcp_socket.hpp"
+
 using namespace testing;
 
 int main() {
@@ -25,10 +24,10 @@ class send_tests : public Test {
     server.start();
 
     const auto addr { make_address(test_ip.data(), std::to_string(test_port)) };
-    conn = make_tcp_connection(addr, std::make_unique<AsioNetworkImplSync>());
+    conn = asio_connect(addr);
   }
 
-  std::unique_ptr<TCPConnection> conn;
+  std::unique_ptr<TcpSocket> conn;
   TestServer server;
 };
 

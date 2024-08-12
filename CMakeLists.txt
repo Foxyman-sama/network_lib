@@ -6,7 +6,10 @@ set(CMAKE_CXX_STANDARD 26)
 
 find_package(Boost REQUIRED CONFIG)
 
-add_library(${PROJECT_NAME} src/tcp_connection.cxx src/network_impl/asio/asio_network_impl_sync.cxx)
+add_library(${PROJECT_NAME} 
+    src/network_impl/asio/asio_tcp_socket.cxx
+    src/network_impl/asio/asio_tcp_server.cxx
+)
 
 target_include_directories(${PROJECT_NAME} PUBLIC 
     src

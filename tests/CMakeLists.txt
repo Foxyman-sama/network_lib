@@ -1,3 +1,1 @@
-add_subdirectory(send_tests)
-add_subdirectory(receive_tests)
-add_subdirectory(connection_tests)
+add_subdirectory(asio)

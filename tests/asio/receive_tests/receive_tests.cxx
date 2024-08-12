@@ -3,15 +3,10 @@
 
 #include <string>
 
-#include "../test_constants.hpp"
+#include "../asio_include.hpp"
 #include "../test_server.hpp"
-#include "address.hpp"
-#include "network_impl/asio/asio_network_impl_sync.hpp"
-#include "tcp_connection.hpp"
+#include "network_impl/asio/asio_tcp_socket.hpp"
 
-using namespace network::client;
-using namespace network::network_impl;
-using namespace network::network_impl::asio;
 using namespace testing;
 
 // TODO Rework this test module.
@@ -29,10 +24,10 @@ class receive_tests : public Test {
     server.start();
 
     const auto addr { make_address(test_ip.data(), std::to_string(test_port)) };
-    conn = make_tcp_connection(addr, std::make_unique<AsioNetworkImplSync>());
+    conn = asio_connect(addr);
   }
 
-  std::unique_ptr<TCPConnection> conn;
+  std::unique_ptr<TcpSocket> conn;
   TestServer server;
 };
 

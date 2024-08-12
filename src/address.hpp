@@ -3,6 +3,8 @@
 
 #include <string>
 
+namespace network::tcp_socket {
+
 class Address {
  public:
   Address() = default;
@@ -23,5 +25,13 @@ class Address {
 };
 
 inline Address make_address(const std::string &ip, const std::string &port) { return Address { ip, port }; }
+
+inline bool operator==(const Address &lhs, const Address &rhs) noexcept {
+  const auto ip_comparison { lhs.get_ip() == rhs.get_ip() };
+  const auto port_comparison { lhs.get_port() == rhs.get_port() };
+  return ip_comparison & port_comparison;
+}
+
+}  // namespace network::tcp_socket
 
 #endif

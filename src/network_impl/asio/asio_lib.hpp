@@ -3,15 +3,15 @@
 
 #include <boost/asio.hpp>
 
-namespace network::network_impl::asio::net_lib {
+namespace asio_lib {
 
-using Context = boost::asio::io_context;
-using TCPResolver = boost::asio::ip::tcp::resolver;
-using TCPSocket = boost::asio::ip::tcp::socket;
-using TCPAcceptor = boost::asio::ip::tcp::acceptor;
-using TCPEndpoint = boost::asio::ip::tcp::endpoint;
-using ErrorCode = boost::system::error_code;
-using StreamBuf = boost::asio::streambuf;
+using AsioContext = boost::asio::io_context;
+using AsioTcpResolver = boost::asio::ip::tcp::resolver;
+using AsioTcpSocket = boost::asio::ip::tcp::socket;
+using AsioTcpAcceptor = boost::asio::ip::tcp::acceptor;
+using AsioTcpEndpoint = boost::asio::ip::tcp::endpoint;
+using AsioErrorCode = boost::system::error_code;
+using AsioStreamBuf = boost::asio::streambuf;
 
 using boost::asio::async_read_until;
 using boost::asio::async_write;
@@ -29,6 +29,6 @@ inline auto reuse_address(bool value) { return boost::asio::ip::tcp::acceptor::r
 
 constexpr char end_delim { '\0' };
 
-}  // namespace network::network_impl::asio::net_lib
+}  // namespace asio_lib
 
 #endif
