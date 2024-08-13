@@ -55,10 +55,13 @@ class TestBase {
 
   asio_lib::AsioContext context;
   asio_lib::AsioTcpSocket socket { context };
+  asio_lib::AsioTcpEndpoint endpoint { asio_lib::v4(), test_port };
+
   Mode mode { Mode::receive };
   asio_lib::AsioStreamBuf receive_buffer;
   std::string send_message;
   std::string result;
+
   std::future<void> task;
 };
 

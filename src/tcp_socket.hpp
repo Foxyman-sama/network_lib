@@ -9,7 +9,7 @@ class TcpSocket {
  public:
   virtual ~TcpSocket() = default;
 
-  virtual void send(const std::string &message) = 0;
+  virtual void send(const std::string& message) = 0;
 
   virtual std::string receive() = 0;
 };  // namespace network::client::classTCPNetwork

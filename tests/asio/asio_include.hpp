@@ -8,6 +8,5 @@
 
 using namespace network::tcp_socket;
 using namespace network::tcp_socket::asio;
-using namespace network::tcp_server;
 
 #endif

@@ -38,7 +38,6 @@ class TestServer : public TestBase {
   }
 
   std::unique_ptr<asio_lib::AsioTcpAcceptor> acceptor { std::make_unique<asio_lib::AsioTcpAcceptor>(context) };
-  asio_lib::AsioTcpEndpoint endpoint { asio_lib::v4(), test_port };
 };
 
 #endif
